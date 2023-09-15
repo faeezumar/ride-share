@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>RideSharingApp</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script
+      type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc-gol1tWqdxpTbodHlbMEx0orHah-1xY&libraries=places"
+    ></script>
+    <script>
+      var place1;
+      var place2;
+      google.maps.event.addDomListener(window, "load", initialize);
+      function initialize() {
+        var pickupInput = document.getElementById("pickup");
+        var dropoffInput = document.getElementById("dropoff");
+        var pickupAutocomplete = new google.maps.places.Autocomplete(
+          pickupInput
+        );
+        var dropoffAutocomplete = new google.maps.places.Autocomplete(
+          dropoffInput
+        );
+        pickupAutocomplete.addListener("place_changed", function () {
+          place1 = pickupAutocomplete.getPlace();
+        });
+        dropoffAutocomplete.addListener("place_changed", function () {
+          place2 = dropoffAutocomplete.getPlace();
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>

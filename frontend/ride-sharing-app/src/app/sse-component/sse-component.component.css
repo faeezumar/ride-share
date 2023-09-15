@@ -1,0 +1,79 @@
+
+.notifications {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.notification-item {
+    margin-bottom: 10px;
+}
+
+
+.ride-request-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ride-request-table th,
+.ride-request-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+.ride-request-table th {
+    background-color: #f2f2f2;
+}
+
+.ride-request-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.accept-button {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.accept-button:disabled,
+.accept-button:hover:disabled{
+    background-color: #8d9092;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.reject-button {
+    background-color: darkred;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+.reject-button:disabled,
+.reject-button:hover:disabled {
+    background-color: #8d9092;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.accept-button:hover {
+    background-color: #0056b3;
+}
+
+.reject-button:hover {
+    background-color: darkred;
+}

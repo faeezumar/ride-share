@@ -1,0 +1,29 @@
+<div class="container">
+    <h2>Driver Signup Form</h2>
+    <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required [(ngModel)]="driver.name">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required [(ngModel)]="driver.email">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required [(ngModel)]="driver.password">
+
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" name="phone" required [(ngModel)]="driver.phone">
+
+        <label for="registration">Car Registration:</label>
+        <input type="text" id="registration" name="registration" required [(ngModel)]="driver.registration">
+
+        <label for="car-type">Car Type:</label>
+        <select id="car-type" name="car-type" required [(ngModel)]="driver.carType">
+            <option value="sedan">Sedan</option>
+            <option value="suv">SUV</option>
+            <option value="van">Van</option>
+            <option value="truck">Truck</option>
+        </select>
+
+        <input type="submit" value="Sign Up" [disabled]="signupForm.invalid">
+    </form>
+</div>

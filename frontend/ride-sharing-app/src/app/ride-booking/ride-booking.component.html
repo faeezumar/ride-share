@@ -1,0 +1,76 @@
+<div class="flex-parent-element">
+  <div class="container flex-child-element">
+    <h2>Ride Booking Form</h2>
+    <form (ngSubmit)="submitForm()" #rideForm="ngForm">
+      <label for="name">Name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        [(ngModel)]="formData.name"
+        required
+      />
+
+      <label for="date">Date:</label>
+      <input
+        type="date"
+        id="date"
+        name="date"
+        [(ngModel)]="formData.date"
+        required
+      />
+
+      <label for="time">Time:</label>
+      <input
+        type="time"
+        id="time"
+        name="time"
+        [(ngModel)]="formData.time"
+        required
+      />
+
+      <label for="pickup">Pickup Location:</label>
+      <input
+        type="text"
+        id="pickup"
+        name="pickup"
+        [(ngModel)]="formData.pickup"
+        (change)="onPicupLocationChange($event)" 
+        required
+      />
+
+      <label for="dropoff">Dropoff Location:</label>
+      <input
+        type="text"
+        id="dropoff"
+        name="dropoff"
+        [(ngModel)]="formData.dropoff"
+        (change)="onPicupLocationChange($event)" 
+        required
+      />
+
+      <label for="car-type">Car Type:</label>
+      <select
+        id="car-type"
+        name="carType"
+        [(ngModel)]="formData.carType"
+        required
+      >
+        <option value="economy">Economy</option>
+        <option value="standard">Standard</option>
+        <option value="premium">Premium</option>
+      </select>
+
+      <button type="submit" [disabled]="rideForm.invalid">Book Ride</button>
+    </form>
+  </div>
+
+  <div class="my-google-map container flex-child-element">
+    <google-map [options]="mapOptions" >
+      <map-marker
+        *ngFor="let marker of markers"
+        [position]="marker.position"
+      ></map-marker>
+    </google-map>
+  </div>
+</div>

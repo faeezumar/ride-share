@@ -1,0 +1,50 @@
+<div class="dashboard">
+    <div class="dashboard-header">Customer Dashboard</div>
+
+    <div class="section">
+        <div class="section-header">Profile</div>
+        <div class="section-content">
+            <div class="profile">
+                <p>Customer Name: {{ customer.name }}</p>
+                <p>Email: {{ customer.email }}</p>
+                <!-- Add more profile information here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Ride History</div>
+        <div class="section-content">
+            <div class="ride-history">
+                <p>Total Rides: 10</p>
+                <p>Last Ride: Date and Time</p>
+                <!-- Add more ride history information here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Rating</div>
+        <div class="section-content">
+            <div class="rating">
+                <p>Your Average Rating: 4.7</p>
+                <!-- Add more rating-related information here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Notifications</div>
+        <div class="section-content">
+            <app-sse-component userType="customer"></app-sse-component>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Request a Ride</div>
+        <div class="section-content">
+            <p>Click the button below to request a ride:</p>
+            <button (click)="onRideRequestForm()" class="request-ride-button">Request a Ride</button>
+        </div>
+    </div>
+</div>

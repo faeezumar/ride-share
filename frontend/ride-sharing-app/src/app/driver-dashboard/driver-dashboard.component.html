@@ -1,0 +1,38 @@
+<!-- driver-dashboard.component.html -->
+<div class="dashboard">
+    <div class="dashboard-header">Driver Dashboard</div>
+
+    <div class="section">
+        <div class="section-header">Availability</div>
+        <div class="section-content">
+            <label for="availabilityToggle">Available:</label>
+            <input type="checkbox" id="availabilityToggle" [(ngModel)]="isAvailable" (change)="toggleAvailability()">
+        </div>
+    </div>
+
+
+    <div class="section">
+        <div class="section-header">Earnings</div>
+        <div class="section-content">
+            <div class="earnings">
+                <p>Your Total Earnings: $5000</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Ratings</div>
+        <div class="section-content">
+            <div class="ratings">
+                <p>Your Average Rating: 4.5</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="section-header">Ride Requests</div>
+        <div class="section-content">
+            <app-sse-component userType="driver"></app-sse-component>
+        </div>
+    </div>
+</div>

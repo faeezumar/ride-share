@@ -1,0 +1,42 @@
+<table class="ride-request-table" *ngIf="userType == 'customer'">
+    <thead>
+        <tr>
+            <th>Pickup Location</th>
+            <th>Destination</th>
+            <th>Time</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ eventData.pickupLocation }}</td>
+            <td>{{ eventData.destination }}</td>
+            <td>{{ eventData.time }}</td>
+            <td>{{ eventData.status }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="ride-request-table" *ngIf="userType == 'driver' && eventData.destination">
+    <thead>
+        <tr>
+            <th>Pickup Location</th>
+            <th>Destination</th>
+            <th>Time</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ eventData.pickupLocation }}</td>
+            <td>{{ eventData.destination }}</td>
+            <td>{{ eventData.time }}</td>
+            <td class="ride-request-actions">
+                <button class="accept-button" [disabled]="disableButton" 
+                (click)="acceptRequest(eventData)">Accept</button>
+                <button class="reject-button" [disabled]="disableButton"
+                 (click)="rejectRequest(eventData)">Reject</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
