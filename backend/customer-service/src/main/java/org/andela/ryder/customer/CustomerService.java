@@ -2,7 +2,6 @@ package org.andela.ryder.customer;
 
 import org.andela.ryder.exception.CustomerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service

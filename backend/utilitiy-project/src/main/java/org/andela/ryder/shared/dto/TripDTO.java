@@ -1,23 +1,19 @@
-package org.andela.ryder.trip;
+package org.andela.ryder.shared.dto;
 
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.andela.ryder.shared.entity.Trip;
 import org.andela.ryder.shared.enums.TripStatus;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "trip")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TripEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TripDTO implements Trip {
     private Long id;
     private Long customerId;
     private Long driverId;
@@ -26,7 +22,7 @@ public class TripEntity {
     private double longitude;
     private double latitude;
     private int numberOfPassengers;
-    private TripStatus status;
+    private TripStatus tripStatus;
     private LocalDateTime time;
     private LocalDateTime createdAt;
 }

@@ -87,9 +87,10 @@ public class QuadTreeImpl<Key extends Comparable<Key>, Value> {
     }
 
     private double distanceSquared(Key x1, Key y1, Key x2, Key y2) {
-        double dx = (double) x1 - (double) x2;
-        double dy = (double) y1 - (double) y2;
-        return dx * dx + dy * dy;
+        //double dx = double x1 - double x2;
+        //double dy = (double) y1 - (double) y2;
+        //return dx * dx + dy * dy;
+        return 0.0;
     }
 
 }

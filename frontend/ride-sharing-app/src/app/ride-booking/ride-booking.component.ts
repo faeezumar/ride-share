@@ -15,7 +15,7 @@ declare var place2: any;
 export class RideBookingComponent {
   formData: any = {};
   private rideRequestUrl: string =
-    'http://localhost:8083/api/v1/notify-drivers';
+    'http://localhost:8080/api/v1/notifications/notify/drivers';
   mapOptions: google.maps.MapOptions = {
     center: { lat: 38.9987208, lng: -77.2538699 },
     zoom: 14,
@@ -28,12 +28,20 @@ export class RideBookingComponent {
   constructor(private httpClient: HttpClient, private router: Router) {}
 
   submitForm() {
-    this.httpClient
-      .post(this.rideRequestUrl, this.formData)
+    setTimeout(() => {
+      this.httpClient
+      .post(this.rideRequestUrl, {
+        //id: customerId,
+        pickupLocation:  place1.name,
+        destination:  place2.name,
+        longitude: place1.geometry['location'].lng(),
+        latitude: place1.geometry['location'].lat(),
+        tripStatus: "PENDING"
+      })
       .subscribe((response: any) => {
         console.log(response);
       });
-    console.log('Form submitted:', this.formData);
+    }, 5000);
     this.router.navigate(['/CustomerDashboard', 1]);
   }
 
