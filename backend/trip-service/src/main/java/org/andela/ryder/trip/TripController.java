@@ -1,12 +1,10 @@
 package org.andela.ryder.trip;
 
+import org.andela.ryder.shared.dto.TripDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/trip")
@@ -21,13 +19,13 @@ public class TripController {
 
 
     @PostMapping("/request-trip")
-    public ResponseEntity<Object> requestTrip(@RequestBody TripRequest tripRequest) {
-        tripService.requestTrip(tripRequest);
-        return ResponseEntity.ok("");
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public TripDTO requestTrip(@RequestBody TripDTO tripRequest) {
+        return tripService.requestTrip(tripRequest);
     }
 
     @PostMapping("/accept-trip")
-    public ResponseEntity<Object> acceptTrip(@RequestBody TripRequest tripRequest) {
+    public ResponseEntity<Object> acceptTrip(@RequestBody TripDTO tripRequest) {
         tripService.acceptTrip(tripRequest);
         return ResponseEntity.ok("");
     }

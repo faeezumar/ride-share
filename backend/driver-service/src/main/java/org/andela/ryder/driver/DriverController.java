@@ -1,6 +1,7 @@
 package org.andela.ryder.driver;
 
 import org.andela.ryder.shared.dto.DriverDTO;
+import org.andela.ryder.shared.dto.LocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class DriverController {
     @PostMapping("/{driverId}/update-location")
     public ResponseEntity<String> updateDriverLocation(
             @PathVariable Long driverId,
-            @RequestBody Location newLocation) {
+            @RequestBody LocationDTO newLocation) {
         driverService.updateDriverLocation(driverId, newLocation);
         return ResponseEntity.ok("Driver's location updated successfully");
     }

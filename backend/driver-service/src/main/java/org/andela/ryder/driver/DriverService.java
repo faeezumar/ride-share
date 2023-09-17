@@ -2,14 +2,12 @@ package org.andela.ryder.driver;
 
 import org.andela.ryder.exception.DriverNotFoundException;
 import org.andela.ryder.shared.dto.DriverDTO;
+import org.andela.ryder.shared.dto.LocationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,15 +32,18 @@ public class DriverService {
     }
 
     public List<DriverDTO> getAvailableDrivers() {
-        Date oneMinuteAgo = new Date(System.currentTimeMillis() - 60 * 1000);
+        var oneMinuteAgo = LocalDateTime.now().minusMinutes(1);
         return driverRepository.findAvailableDrivers(oneMinuteAgo).stream().map(this::toDTO).toList();
     }
 
     @Transactional
-    public void updateDriverLocation(Long driverId, Location newLocation) {
+    public void updateDriverLocation(Long driverId, LocationDTO newLocation) {
          var driverInstance = driverRepository.findById(driverId)
                 .orElseThrow(() -> new DriverNotFoundException("Driver not found with id: " + driverId));
-        driverInstance.setCurrentLocation(newLocation);
+        driverInstance.setCurrentLocation(Location.builder()
+                        .longitude(newLocation.getLongitude())
+                        .latitude(newLocation.getLatitude())
+                .build());
         driverInstance.setLastLocationUpdate(LocalDateTime.now());
         driverRepository.save(driverInstance);
     }
@@ -52,6 +53,11 @@ public class DriverService {
                 .id(savedInstance.getId())
                 .name(savedInstance.getName())
                 .email(savedInstance.getEmail())
+                .cabRegistrationNumber(savedInstance.getCabRegistrationNumber())
+                .currentLocation(LocationDTO.builder()
+                        .longitude(savedInstance.getCurrentLocation().longitude)
+                        .latitude(savedInstance.getCurrentLocation().latitude)
+                        .build())
                 .build();
     }
 

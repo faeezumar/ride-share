@@ -38,9 +38,9 @@ export class SseComponentComponent implements OnInit, OnDestroy {
   eventData:  RideNotification = new RideNotification('', '', '', '');
   private sseSubscription: Subscription = new Subscription();
   disableButton: boolean = false;
-  private customerNotificationUrl = "http://localhost:8083/api/v1/customers/subscribe"
-  private driverNotificationUrl = "http://localhost:8083/api/v1/drivers/subscribe"
-  private acceptRequestUrl = "http://localhost:8083/api/v1/notify-customers"
+  private customerNotificationUrl = "http://localhost:8080/api/v1/notifications/customers/subscribe"
+  private driverNotificationUrl = "http://localhost:8080/api/v1/notifications/drivers/subscribe"
+  private acceptRequestUrl = "http://localhost:8080/api/v1/notifications/notify-customers"
   @Input() userType: any;
 
   constructor(

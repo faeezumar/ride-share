@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "drivers")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,11 +21,13 @@ public class DriverEntity {
     private Long id;
     private String name;
     private String email;
+    @Column(columnDefinition = "DATE")
     private LocalDate dateOfBirth;
     private String password;
     private String confirmedPassword;
     private String cabRegistrationNumber;
     @Embedded
     private Location currentLocation;
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime lastLocationUpdate;
 }

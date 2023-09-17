@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "customer")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +23,6 @@ public class CustomerEntity {
     private String email;
     private String password;
     private LocalDateTime createdAt;
-
-    //@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    //private List<Trip> tripHistory;
+    //private Set<Trip> tripHistory;
+    //private Set<Rating> ratings;
 }
