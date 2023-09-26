@@ -91,19 +91,26 @@ Thank you for choosing our ride-sharing service. We hope this README provides a 
 ## Installation 
 
 To install and run the application locally make sure you have the following software installed on your system:
-- Node.js and npm: Ensure you have Node.js and npm (Node Package Manager) installed. You can download them from the official website: https://nodejs.org/
-- JDK (Java Development Kit): You need JDK installed on your system. Make sure you have at least JDK version 8 or higher. You can download it from: Oracle JDK or OpenJDK
+- Node.js and npm: Ensure you have Node.js and npm (Node Package Manager) installed. You can download them from the official website: https://nodejs.org/en/download
+- JDK (Java Development Kit): Make sure you have JDK version 8 or higher. Download it from https://jdk.java.net/21/
 
 Clone the repository to your local machine:
+```
   git clone https://github.com/faeezumar/Ride-Sharing-Application.git
   cd Ride-Sharing-Application
+```
+ 
 
 To run the frontend of the application, navigate to the 'frontend' folder:
+```
   cd frontend
   npm install
   ng serve
-
+```
 
 To run the backend services, navigate to the respective folder for each microservice within the project directory and run 
+```
   mvn spring-boot:run
+```
+  
 

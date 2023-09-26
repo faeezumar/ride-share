@@ -5,28 +5,12 @@ import { Subscription } from 'rxjs';
 
 interface RideRequest {
   id: number;
-  pickupLocation: string;
-  destination: string;
-  time: string;
-}
-
-export class RideNotification {
+  customerId: number;
+  driverId: number;
   pickupLocation: string;
   destination: string;
   time: string;
   status: string;
-
-  constructor(
-    pickupLocation: string, 
-    destination: string, 
-    time: string,
-    status: string
-    ) {
-    this.pickupLocation = pickupLocation;
-    this.destination = destination;
-    this.time = time;
-    this.status = status
-  }
 }
 
 @Component({
@@ -35,32 +19,32 @@ export class RideNotification {
   styleUrls: ['./sse-component.component.css'],
 })
 export class SseComponentComponent implements OnInit, OnDestroy {
-  eventData:  RideNotification = new RideNotification('', '', '', '');
+  notification!: RideRequest;
   private sseSubscription: Subscription = new Subscription();
   disableButton: boolean = false;
-  private customerNotificationUrl = "http://localhost:8080/api/v1/notifications/customers/subscribe"
-  private driverNotificationUrl = "http://localhost:8080/api/v1/notifications/drivers/subscribe"
-  private acceptRequestUrl = "http://localhost:8080/api/v1/notifications/notify-customers"
   @Input() userType: any;
+  @Input() userId: any;
 
-  constructor(
-    private sseService: SseService,
-    private httpClient: HttpClient,
-    ) {}
+  private acceptRequestUrl = 'http://localhost:8080/api/v1/trip/accept-trip';
+
+  constructor(private sseService: SseService, private httpClient: HttpClient) {}
 
   ngOnInit(): void {
-    this.sseSubscription = this.sseService.connect(
-      this.userType == 'customer' 
-      ? this.customerNotificationUrl 
-      : this.driverNotificationUrl
-    ).subscribe(
-      (event: MessageEvent) => {
-        this.eventData = JSON.parse(event.data);
-      },
-      (error) => {
-        console.error('Error with SSE connection:', error);
-      }
-    );
+    this.sseSubscription = this.sseService
+      .connect(
+        this.userType == 'customer'
+          ? 'http://localhost:8080/api/v1/notifications/customers/' +
+              this.userId +
+              '/subscribe'
+          : 'http://localhost:8080/api/v1/notifications/drivers/' +
+              this.userId +
+              '/subscribe'
+      )
+      .subscribe({
+        next: (event: MessageEvent) => {
+          this.notification = JSON.parse(event.data);
+        },
+      });
   }
 
   ngOnDestroy(): void {
@@ -68,12 +52,17 @@ export class SseComponentComponent implements OnInit, OnDestroy {
     this.sseService.disconnect();
   }
 
-  acceptRequest(request: any) {
-    this.disableButton = true
-    this.httpClient.post(this.acceptRequestUrl, { request })
+  acceptRequest(request: RideRequest) {
+    console.log(request);
+    this.disableButton = true;
+    this.httpClient
+      .post(this.acceptRequestUrl, {
+        ...request,
+        tripStatus: 'ACCEPTED',
+      })
       .subscribe(
         (response: any) => {
-          console.log("Request Accepted.")
+          console.log('Request Accepted.');
         },
         (error: any) => {
           console.error('Error accepting ride request:', error);
@@ -81,16 +70,15 @@ export class SseComponentComponent implements OnInit, OnDestroy {
       );
   }
 
-  rejectRequest(request: any) {
-    this.disableButton
-    this.httpClient.post('/api/v1/reject-request', { request })
-      .subscribe(
-        (response: any) => {
-          console.log('Request rejected')
-        },
-        (error: any) => {
-          console.error('Error rejecting ride request:', error);
-        }
-      );
+  rejectRequest(request: RideRequest) {
+    this.disableButton;
+    this.httpClient.post('/api/v1/reject-request', { request }).subscribe(
+      (response: any) => {
+        console.log('Request rejected');
+      },
+      (error: any) => {
+        console.error('Error rejecting ride request:', error);
+      }
+    );
   }
 }

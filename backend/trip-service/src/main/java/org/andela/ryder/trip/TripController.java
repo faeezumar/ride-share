@@ -25,8 +25,8 @@ public class TripController {
     }
 
     @PostMapping("/accept-trip")
-    public ResponseEntity<Object> acceptTrip(@RequestBody TripDTO tripRequest) {
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void acceptTrip(@RequestBody TripDTO tripRequest) {
         tripService.acceptTrip(tripRequest);
-        return ResponseEntity.ok("");
     }
 }

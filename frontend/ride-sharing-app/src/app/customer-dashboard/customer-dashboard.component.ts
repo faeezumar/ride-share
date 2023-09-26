@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CustomerDashboardComponent implements OnInit {
   url = 'http://localhost:8080/api/v1/customers/one/'
+  customerId: any
   customer: any
 
   constructor(
@@ -19,8 +20,8 @@ export class CustomerDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      const id = params.get('id');
-      this.fetchCustomer(id);
+      this.customerId = params.get('id');
+      this.fetchCustomer(this.customerId);
     });
   }
 
@@ -31,7 +32,7 @@ export class CustomerDashboardComponent implements OnInit {
   }
 
   onRideRequestForm() {
-    this.router.navigate(['/RideRequest', 'id']);
+    this.router.navigate(['/RideRequest', this.customerId]);
   }
 
 }

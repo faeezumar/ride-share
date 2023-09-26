@@ -14,47 +14,52 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/notifications")
 public class NotificationController {
-    private ArrayList<Notification> customerNotificationsList =  new ArrayList();
-    private ArrayList<Notification> driverNotificationsList =  new ArrayList();
 
-    @GetMapping(path = "/customers/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<Notification> customerSubscribe() {
-        final DateFormat DATE_FORMATTER = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
-        return Flux.fromIterable(customerNotificationsList);
+    private final NotificationService notificationService;
+
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
     }
 
-    @GetMapping(path = "/drivers/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<Notification> driverSubscribe() {
-        final DateFormat DATE_FORMATTER = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
-        return Flux.fromIterable(driverNotificationsList);
+    @GetMapping(path = "/customers/{customerId}/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Notification> customerSubscribe(@PathVariable("customerId") Long customerId) {
+        return notificationService.notificationByCustomerId(customerId);
     }
 
-    @PostMapping("/notify-customers")
-    public ResponseEntity<Object> notifySubscribers()  {
-        final DateFormat DATE_FORMATTER = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a");
+    @GetMapping(path = "/drivers/{driverId}/subscribe", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Notification> driverSubscribe(@PathVariable("driverId") Long driverId) {
+        return notificationService.notificationByDriverId(driverId);
+    }
+
+    @PostMapping("/notify-customer")
+    public void notifyCustomer(@RequestBody TripDTO tripDTO)  {
         var notification = Notification.builder()
-                .pickupLocation("Mandawari Sabon Titi")
-                .destination("Hotoro NNPC Junction.")
-                .time(DATE_FORMATTER.format(new Date()))
-                .status("APPROVED")
+                .pickupLocation(tripDTO.getPickupLocation())
+                .destination(tripDTO.getDestination())
+                .time(LocalDateTime.now())
+                .status(tripDTO.getTripStatus().name())
+                .customerId(tripDTO.getCustomerId())
                 .build();
-        customerNotificationsList.add(notification);
-        return new ResponseEntity<>("", HttpStatus.OK);
+        notificationService.saveCustomerNotification(notification);
     }
 
-    @PostMapping("/notify/drivers")
-    public ResponseEntity<Object> notifyDrivers(@RequestBody TripDTO trip)  {
+    @PostMapping("/notify-driver")
+    public void notifyDriver(@RequestBody TripDTO tripDTO)  {
         var notification = Notification.builder()
-                .pickupLocation(trip.getPickupLocation())
-                .destination(trip.getDestination())
-                .status(trip.getTripStatus().name())
+                .id(tripDTO.getId())
+                .customerId(tripDTO.getCustomerId())
+                .driverId(tripDTO.getDriverId())
+                .pickupLocation(tripDTO.getPickupLocation())
+                .destination(tripDTO.getDestination())
+                .status(tripDTO.getTripStatus().name())
+                .time(LocalDateTime.now())
                 .build();
-        driverNotificationsList.add(notification);
-        return new ResponseEntity<>("", HttpStatus.OK);
+        notificationService.saveDriverNotification(notification);
     }
 
 }

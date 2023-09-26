@@ -3,7 +3,9 @@ package org.andela.ryder.trip;
 import org.andela.ryder.shared.dto.TripDTO;
 import org.jobrunr.scheduling.JobScheduler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.BackgroundPreinitializer;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @Service
 public class TripService {
@@ -31,6 +33,7 @@ public class TripService {
     }
 
     public void acceptTrip(TripDTO tripRequest) {
-
+        var acceptedTrip = tripRepository.save(tripMapper.toEntity(tripRequest));
+        jobScheduler.enqueue(() -> rideMatchingService.matchTrip(acceptedTrip));
     }
 }

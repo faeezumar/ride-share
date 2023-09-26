@@ -33,10 +33,10 @@ public class DriverController {
     }
 
     @PostMapping("/{driverId}/update-location")
-    public ResponseEntity<String> updateDriverLocation(
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateDriverLocation(
             @PathVariable Long driverId,
             @RequestBody LocationDTO newLocation) {
         driverService.updateDriverLocation(driverId, newLocation);
-        return ResponseEntity.ok("Driver's location updated successfully");
     }
 }
