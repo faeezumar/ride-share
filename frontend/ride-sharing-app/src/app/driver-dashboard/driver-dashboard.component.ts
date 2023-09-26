@@ -27,11 +27,6 @@ export class DriverDashboardComponent {
 
   toggleAvailability() {
     this.sendLocation = !this.sendLocation;
-    let options = {
-      enableHighAccuracy: true,
-      maximumAge: 150000,
-      timeout: 30000,
-    };
     if (navigator.geolocation && this.sendLocation) {
       this.interval = setInterval(() => {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -55,8 +50,6 @@ export class DriverDashboardComponent {
           '/update-location',
         position
       )
-      .subscribe((response: any) => {
-        //console.log(response);
-      });
+      .subscribe((response: any) => {});
   }
 }

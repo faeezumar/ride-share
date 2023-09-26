@@ -49,10 +49,8 @@ export class RideBookingComponent {
           latitude: place1.geometry['location'].lat(),
           tripStatus: 'PENDING',
         })
-        .subscribe((response: any) => {
-          console.log(response);
-        });
-    }, 5000);
+        .subscribe((response: any) => {});
+    }, 2000);
     this.router.navigate(['/CustomerDashboard', this.customerId]);
   }
 
@@ -62,7 +60,7 @@ export class RideBookingComponent {
   }
 
   onPicupLocationChange(event: any) {
-    setTimeout(() => this.updateMarkers(), 5000);
+    setTimeout(() => this.updateMarkers(), 2000);
   }
 
   getBounds(markers: any) {

@@ -25,8 +25,7 @@ export class SseComponentComponent implements OnInit, OnDestroy {
   @Input() userType: any;
   @Input() userId: any;
 
-  private acceptRequestUrl =
-    'http://localhost:8080/api/v1/trip/accept-trip';
+  private acceptRequestUrl = 'http://localhost:8080/api/v1/trip/accept-trip';
 
   constructor(private sseService: SseService, private httpClient: HttpClient) {}
 
@@ -44,7 +43,6 @@ export class SseComponentComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (event: MessageEvent) => {
           this.notification = JSON.parse(event.data);
-          //console.log(this.notification)
         },
       });
   }
@@ -55,7 +53,7 @@ export class SseComponentComponent implements OnInit, OnDestroy {
   }
 
   acceptRequest(request: RideRequest) {
-    console.log(request)
+    console.log(request);
     this.disableButton = true;
     this.httpClient
       .post(this.acceptRequestUrl, {
