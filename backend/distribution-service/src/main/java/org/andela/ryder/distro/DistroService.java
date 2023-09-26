@@ -12,13 +12,12 @@ import java.util.Arrays;
 public class DistroService {
     private final QuadTreeImpl<Double, Long> quadTree;
 
-    private final CoverTreeImpl<Long> coverTree;
+    private CoverTreeImpl<Long> coverTree;
     private final WebClient.Builder webClientBuilder;
 
     @Autowired
-    public DistroService(QuadTreeImpl<Double, Long> quadTree, CoverTreeImpl<Long> coverTree, WebClient.Builder webClientBuilder) {
+    public DistroService(QuadTreeImpl<Double, Long> quadTree, WebClient.Builder webClientBuilder) {
         this.quadTree = quadTree;
-        this.coverTree = coverTree;
         this.webClientBuilder = webClientBuilder;
     }
 
@@ -30,6 +29,7 @@ public class DistroService {
                 .block();
 
         if (driversArray != null && driversArray.length > 0) {
+            coverTree = new CoverTreeImpl<>();
             Arrays.stream(driversArray).forEach(driver -> {
                 coverTree.insert(driver.getId(), new double[]{
                         driver.getCurrentLocation().getLongitude(),

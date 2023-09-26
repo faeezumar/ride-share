@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { GoogleMap } from '@angular/google-maps';
 import { ViewChild } from '@angular/core';
 
@@ -14,8 +14,9 @@ declare var place2: any;
 })
 export class RideBookingComponent {
   formData: any = {};
+  customerId: any;
   private rideRequestUrl: string =
-    'http://localhost:8080/api/v1/notifications/notify/drivers';
+    'http://localhost:8080/api/v1/trip/request-trip';
   mapOptions: google.maps.MapOptions = {
     center: { lat: 38.9987208, lng: -77.2538699 },
     zoom: 14,
@@ -25,29 +26,39 @@ export class RideBookingComponent {
   @ViewChild(GoogleMap) map!: GoogleMap;
   markers: any = [];
 
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.customerId = params.get('id');
+    });
+  }
 
   submitForm() {
     setTimeout(() => {
       this.httpClient
-      .post(this.rideRequestUrl, {
-        //id: customerId,
-        pickupLocation:  place1.name,
-        destination:  place2.name,
-        longitude: place1.geometry['location'].lng(),
-        latitude: place1.geometry['location'].lat(),
-        tripStatus: "PENDING"
-      })
-      .subscribe((response: any) => {
-        console.log(response);
-      });
+        .post(this.rideRequestUrl, {
+          customerId: this.customerId,
+          pickupLocation: place1.name,
+          destination: place2.name,
+          longitude: place1.geometry['location'].lng(),
+          latitude: place1.geometry['location'].lat(),
+          tripStatus: 'PENDING',
+        })
+        .subscribe((response: any) => {
+          console.log(response);
+        });
     }, 5000);
-    this.router.navigate(['/CustomerDashboard', 1]);
+    this.router.navigate(['/CustomerDashboard', this.customerId]);
   }
 
   ngAfterViewInit() {
     const bounds = this.getBounds(this.markers);
-    this.map.googleMap!.fitBounds(bounds);
+    //this.map.googleMap!.fitBounds(bounds);
   }
 
   onPicupLocationChange(event: any) {
@@ -85,14 +96,18 @@ export class RideBookingComponent {
 
   updateMarkers() {
     this.markers = [
-      { position: { 
-        lat: place1.geometry['location'].lat(), 
-        lng: place1.geometry['location'].lng() 
-      } },
-      { position: { 
-        lat: place2.geometry['location'].lat(), 
-        lng: place2.geometry['location'].lng() 
-      } },
+      {
+        position: {
+          lat: place1.geometry['location'].lat(),
+          lng: place1.geometry['location'].lng(),
+        },
+      },
+      {
+        position: {
+          lat: place2.geometry['location'].lat(),
+          lng: place2.geometry['location'].lng(),
+        },
+      },
     ];
     const bounds = this.getBounds(this.markers);
     this.map.googleMap!.fitBounds(bounds);

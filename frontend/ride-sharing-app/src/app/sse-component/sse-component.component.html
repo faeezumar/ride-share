@@ -8,16 +8,16 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>{{ eventData.pickupLocation }}</td>
-            <td>{{ eventData.destination }}</td>
-            <td>{{ eventData.time }}</td>
-            <td>{{ eventData.status }}</td>
+        <tr *ngIf="notification != undefined">
+            <td>{{ notification.pickupLocation }}</td>
+            <td>{{ notification.destination }}</td>
+            <td>{{ notification.time }}</td>
+            <td>{{ notification.status }}</td>
         </tr>
     </tbody>
 </table>
 
-<table class="ride-request-table" *ngIf="userType == 'driver' && eventData.destination">
+<table class="ride-request-table" *ngIf="userType == 'driver' && notification">
     <thead>
         <tr>
             <th>Pickup Location</th>
@@ -27,15 +27,15 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>{{ eventData.pickupLocation }}</td>
-            <td>{{ eventData.destination }}</td>
-            <td>{{ eventData.time }}</td>
+        <tr *ngIf="notification != undefined">
+            <td>{{ notification.pickupLocation }}</td>
+            <td>{{ notification.destination }}</td>
+            <td>{{ notification.time }}</td>
             <td class="ride-request-actions">
                 <button class="accept-button" [disabled]="disableButton" 
-                (click)="acceptRequest(eventData)">Accept</button>
+                (click)="acceptRequest(notification)">Accept</button>
                 <button class="reject-button" [disabled]="disableButton"
-                 (click)="rejectRequest(eventData)">Reject</button>
+                 (click)="rejectRequest(notification)">Reject</button>
             </td>
         </tr>
     </tbody>
